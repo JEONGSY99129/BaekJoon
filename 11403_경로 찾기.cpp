@@ -3,10 +3,10 @@
 using namespace std;
 #define MAX 100
 int temp[MAX];
-int matrix[MAX][MAX]; // ÀÔ·Â¹ŞÀº matrix
-int valid_path[MAX][MAX]; //°á°ú¹° Ãâ·ÂÀ» À§ÇÑ matrix
+int matrix[MAX][MAX]; // ì…ë ¥ë°›ì€ matrix
+int valid_path[MAX][MAX]; //ê²°ê³¼ë¬¼ ì¶œë ¥ì„ ìœ„í•œ matrix
 int visited[MAX] = { 0 };
-int N; //N°³ÀÇ ÁÙ
+int N; //Nê°œì˜ ì¤„
 
 void DFS(int start) {
 	visited[start]++;
