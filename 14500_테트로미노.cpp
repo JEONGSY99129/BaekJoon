@@ -3,18 +3,18 @@
 using namespace std;
 #define MAX 501
 
-int N, M; // N:¼¼·Î, M:°¡·Î
+int N, M; // N:ì„¸ë¡œ, M:ê°€ë¡œ
 int matrix[MAX][MAX];
 int dx[4] = { 1, -1, 0, 0 };
 int dy[4] = { 0, 0, 1, -1 }; 
 
 int visited[MAX][MAX] = { 0 };
 int sum = 0;
-int total_max = 0; //½ÇÁ¦ Ãâ·Â °ª
+int total_max = 0; //ì‹¤ì œ ì¶œë ¥ ê°’
 
 void DFS(int current_y, int current_x, int count) {
 
-	visited[current_y][current_x] = 1; // visited Ã¼Å©
+	visited[current_y][current_x] = 1; // visited ì²´í¬
 	count++;
 	sum += matrix[current_y][current_x];
 
@@ -47,31 +47,31 @@ int main() {
 				cin >> matrix[i][j];
 			}
 		}
-	} //ÀÔ·Â °ª
+	} //ìž…ë ¥ ê°’
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			DFS(i, j, 0);
 
-			//¤¿
+			//ã…
 			if (0 <= j + 1 && j + 1 < M && 0 <= i + 1 && i + 1 < N && 0 <= i + 2 && i + 2 < N) {
 				sum = matrix[i][j] + matrix[i + 1][j] + matrix[i + 2][j] + matrix[i + 1][j + 1];
 				total_max = max(total_max, sum);
 			}
 
-			//¤Ì
+			//ã…œ
 			if (0 <= j + 2 && j + 2 < M && 0 <= j + 1 && j + 1 < M && 0 <= i + 1 && i + 1 < N) {
 				sum = matrix[i][j] + matrix[i][j + 1] + matrix[i][j + 2] + matrix[i + 1][j + 1];
 				total_max = max(total_max, sum);
 			}
 
-			//¤Ç
+			//ã…—
 			if (0 <= i + 1 && i + 1 < N && 0 <= j + 2 && j + 2 < M) {
 				sum = matrix[i][j + 1] + matrix[i + 1][j] + matrix[i + 1][j + 1] + matrix[i + 1][j + 2];
 				total_max = max(total_max, sum);
 			}
 
-			//¤Ã
+			//ã…“
 			if (0 <= i + 2 && i + 2 < N && 0 <= j + 1 && j + 1 < M) {
 				sum = matrix[i][j + 1] + matrix[i + 1][j + 1] + matrix[i + 1][j] + matrix[i + 2][j + 1];
 				total_max = max(total_max, sum);
