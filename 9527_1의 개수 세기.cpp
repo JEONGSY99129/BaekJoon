@@ -12,9 +12,9 @@ long long f(long long A) {
 	for (length = 0; tmp != 0; ) {
 		tmp = tmp >> 1;
 		length++;
-	}//AÀÇ ÀÌÁø¼ö ÀÚ¸´¼ö ¼¼±â
+	}//Aì˜ ì´ì§„ìˆ˜ ìžë¦¿ìˆ˜ ì„¸ê¸°
 	
-	long long msb = A - (long long)pow(2, length-1)+1; //A¿Í AÀÇ ÀÌÁø¼ö ÀÚ¸´¼ö¿Í °°Àº ¼ö Áß¿¡¼­ Á¦ÀÏ ÀÛÀº ¼ö »çÀÌÀÇ ¼ýÀÚ °³¼ö(ÃÖ»óÀ§ ºñÆ® 1ÀÇ °³¼ö)
+	long long msb = A - (long long)pow(2, length-1)+1; //Aì™€ Aì˜ ì´ì§„ìˆ˜ ìžë¦¿ìˆ˜ì™€ ê°™ì€ ìˆ˜ ì¤‘ì—ì„œ ì œì¼ ìž‘ì€ ìˆ˜ ì‚¬ì´ì˜ ìˆ«ìž ê°œìˆ˜(ìµœìƒìœ„ ë¹„íŠ¸ 1ì˜ ê°œìˆ˜)
 
 	long long countnum = ((long long)length - 1) * (long long)pow(2, length - 2);
 
