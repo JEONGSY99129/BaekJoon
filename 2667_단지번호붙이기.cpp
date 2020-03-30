@@ -5,27 +5,27 @@
 using namespace std;
 #define _CRT_SERCURE_NO_WARNINGS
 #define MAX 26
-int matrix[MAX][MAX]; //ÃÖ´ë »çÀÌÁî ÁöÁ¤
+int matrix[MAX][MAX]; //ìµœëŒ€ ì‚¬ì´ì¦ˆ ì§€ì •
 int visited[MAX][MAX] = { 0 };
 int move_x[4] = { 0, 0, 1, -1 }; 
 int move_y[4] = { 1, -1, 0, 0 }; 
-int numOfHouses[500] = { 0 }; //°¢ ´ÜÁöÀÇ °¡±¸ ¼ö
-int apartment = 0; //´ÜÁö ¼ö
-int N; //¹è¿­ »çÀÌÁî
+int numOfHouses[500] = { 0 }; //ê° ë‹¨ì§€ì˜ ê°€êµ¬ ìˆ˜
+int apartment = 0; //ë‹¨ì§€ ìˆ˜
+int N; //ë°°ì—´ ì‚¬ì´ì¦ˆ
 
 void DFS(int current_x, int current_y) {
-	visited[current_x][current_y] = 1; //visited Ã¼Å©
+	visited[current_x][current_y] = 1; //visited ì²´í¬
 
 	for (int i = 0; i < 4; i++) {
 		int next_x = current_x + move_x[i];
 		int next_y = current_y + move_y[i];
 
-		if (0 <= next_x && next_x < N && 0 <= next_y && next_y < N && visited[next_x][next_y]!=1) { //¿òÁ÷ÀÎ ¹üÀ§°¡ À¯È¿ÇÑ ¹üÀ§¶ó¸é + ¾ËÆÄ Á¶°ÇÀÌ ÇÊ¿äÇÒµí,,?
+		if (0 <= next_x && next_x < N && 0 <= next_y && next_y < N && visited[next_x][next_y]!=1) { //ì›€ì§ì¸ ë²”ìœ„ê°€ ìœ íš¨í•œ ë²”ìœ„ë¼ë©´ + ì•ŒíŒŒ ì¡°ê±´ì´ í•„ìš”í• ë“¯,,?
 			if (matrix[next_x][next_y] == 1) {
-				numOfHouses[apartment-1]++; //Áı °¡±¸ ¼ö
+				numOfHouses[apartment-1]++; //ì§‘ ê°€êµ¬ ìˆ˜
 				DFS(next_x, next_y);
 			}
-			else //0ÀÌ¸é Ã¼Å©¸¸ ÇÏ°í ³Ñ¾î°¨.
+			else //0ì´ë©´ ì²´í¬ë§Œ í•˜ê³  ë„˜ì–´ê°.
 			{
 				visited[next_x][next_y] = 1;
 			}
@@ -47,8 +47,8 @@ int main() {
 	}
 
 
-	for (int i = 0; i < N; i++) { //¼¼·Î
-		for (int j = 0; j < N; j++) { //°¡·Î
+	for (int i = 0; i < N; i++) { //ì„¸ë¡œ
+		for (int j = 0; j < N; j++) { //ê°€ë¡œ
 			if (visited[i][j] != 1 && matrix[i][j]==1) {
 				apartment++;
 				numOfHouses[apartment-1]++;
