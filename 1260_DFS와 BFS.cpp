@@ -4,7 +4,7 @@
 #include<queue>
 using namespace std;
 
-int visited[1001] = { 0 }; //¾ÆÁ÷ ´Ù ¹æ¹®¾ÈÇÑ »óÅÂ·Î ÃÊ±âÈ­
+int visited[1001] = { 0 }; //ì•„ì§ ë‹¤ ë°©ë¬¸ì•ˆí•œ ìƒíƒœë¡œ ì´ˆê¸°í™”
 vector <int> v[1001];
 queue <int> q[1001];
 
@@ -21,7 +21,7 @@ void DFS(int start) {
 		}
 	}
 }
-//visited 0¸¸µé¸é ¾È‰Î. °ñÄ¡¾ÆÆÄÁü
+//visited 0ë§Œë“¤ë©´ ì•ˆÂ‰. ê³¨ì¹˜ì•„íŒŒì§
 
 void BFS(int start) {
 	visited[start] = 1;
@@ -47,21 +47,21 @@ void BFS(int start) {
 int main() {
 	int N, M, V;
 	int ver1, ver2;
-	cin >> N >> M >> V; //vertex, edge, start ÀÔ·Â¹Ş±â
+	cin >> N >> M >> V; //vertex, edge, start ì…ë ¥ë°›ê¸°
 
-	if (1 <= N && N <= 1000 && 1 <= M && M <= 10000 && 1 <= V && V <= N) { //input Á¶°Ç È®ÀÎ
-		for (int i = 0; i < M; i++) { //edge °³¼ö¸¸Å­ ÀÔ·Â ¹Ş±â
+	if (1 <= N && N <= 1000 && 1 <= M && M <= 10000 && 1 <= V && V <= N) { //input ì¡°ê±´ í™•ì¸
+		for (int i = 0; i < M; i++) { //edge ê°œìˆ˜ë§Œí¼ ì…ë ¥ ë°›ê¸°
 			cin >> ver1 >> ver2;
 			v[ver2].push_back(ver1);
 			v[ver1].push_back(ver2);
 		}
 	}
 	for (int i = 1; i <= N; i++) {
-		sort(v[i].begin(), v[i].end()); //vector ¹è¿­ ¿À¸§Â÷¼ø Á¤·Ä
+		sort(v[i].begin(), v[i].end()); //vector ë°°ì—´ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
 	}
 
-	DFS(V); //DFS½ÃÀÛ
+	DFS(V); //DFSì‹œì‘
 	cout << endl;
-	memset(visited, 0, sizeof(visited)); //0À¸·Î ÃÊ±âÈ­
-	BFS(V); //Ãâ·ÂÀº ÀÌ ¾È¿¡¼­ ÇÏ´Â°É·Î, void
+	memset(visited, 0, sizeof(visited)); //0ìœ¼ë¡œ ì´ˆê¸°í™”
+	BFS(V); //ì¶œë ¥ì€ ì´ ì•ˆì—ì„œ í•˜ëŠ”ê±¸ë¡œ, void
 }
