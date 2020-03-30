@@ -5,15 +5,15 @@ using namespace std;
 #define MAX 8
 #define SPACEMAX 100
 int matrix[MAX][MAX];
-int copymatrix[MAX][MAX]; //¿øº» ¸ÅÆ®¸¯½º º¹»ç
+int copymatrix[MAX][MAX]; //ì›ë³¸ ë§¤íŠ¸ë¦­ìŠ¤ ë³µì‚¬
 int dx[4] = { 1, -1, 0, 0 };
 int dy[4] = { 0, 0, 1, -1 };
-vector <int> available_space[SPACEMAX]; //º®À» ¼¼¿ï¼ö ÀÖ´Â ÁÂÇ¥µéÀ» ÀúÀå
-int num = 0; //available_spaceÀÇ Å©±â
-int N, M; // N : ¼¼·Î Å©±â, M : °¡·Î Å©±â
+vector <int> available_space[SPACEMAX]; //ë²½ì„ ì„¸ìš¸ìˆ˜ ìˆëŠ” ì¢Œí‘œë“¤ì„ ì €ì¥
+int num = 0; //available_spaceì˜ í¬ê¸°
+int N, M; // N : ì„¸ë¡œ í¬ê¸°, M : ê°€ë¡œ í¬ê¸°
 int visited[MAX][MAX];
-int maxnum = 0; //ÃÖÁ¾ Ãâ·Â °ª
-int safety_z; //°¢ ÄÉÀÌ½ºµé¿¡ ´ëÇÑ safety zone Ä«¿îÆ® º¯¼ö
+int maxnum = 0; //ìµœì¢… ì¶œë ¥ ê°’
+int safety_z; //ê° ì¼€ì´ìŠ¤ë“¤ì— ëŒ€í•œ safety zone ì¹´ìš´íŠ¸ ë³€ìˆ˜
 
 void DFS(int current_y, int current_x) {
 	visited[current_y][current_x] = 1;
@@ -22,9 +22,9 @@ void DFS(int current_y, int current_x) {
 		int nx = current_x + dx[i];
 		int ny = current_y + dy[i];
 
-		if (0 <= nx && nx < M && 0 <= ny && ny < N && visited[ny][nx] == 0) //¹üÀ§ ¾È¿¡ ¾È µé¾î°¡¸é °Åµé¶° º¸Áöµµ ¾ÊÀ½.
+		if (0 <= nx && nx < M && 0 <= ny && ny < N && visited[ny][nx] == 0) //ë²”ìœ„ ì•ˆì— ì•ˆ ë“¤ì–´ê°€ë©´ ê±°ë“¤ë–  ë³´ì§€ë„ ì•ŠìŒ.
 		{
-			if (copymatrix[ny][nx] == 0) { //¿òÁ÷ÀÎ ¹üÀ§°¡ À¯È¿ÇÑ ¹üÀ§¶ó¸é + ¾ËÆÄ Á¶°ÇÀÌ ÇÊ¿äÇÒµí,,?
+			if (copymatrix[ny][nx] == 0) { //ì›€ì§ì¸ ë²”ìœ„ê°€ ìœ íš¨í•œ ë²”ìœ„ë¼ë©´ + ì•ŒíŒŒ ì¡°ê±´ì´ í•„ìš”í• ë“¯,,?
 				copymatrix[ny][nx] = 2;
 				DFS(ny, nx);
 			}
@@ -54,32 +54,32 @@ void Making_wall() {
 		int point_x1 = available_space[i][1];
 		int point_y1 = available_space[i][0];
 
-		matrix[point_y1][point_x1] = 1; //Ã¹¹øÂ° º® ¼¼¿ì±â
+		matrix[point_y1][point_x1] = 1; //ì²«ë²ˆì§¸ ë²½ ì„¸ìš°ê¸°
 		for (int j = i+1; j < num - 1; j++) {
 			int point_x2 = available_space[j][1];
 			int point_y2 = available_space[j][0];
 
-			matrix[point_y2][point_x2] = 1; //µÎ¹øÂ° º® ¼¼¿ì±â
+			matrix[point_y2][point_x2] = 1; //ë‘ë²ˆì§¸ ë²½ ì„¸ìš°ê¸°
 			for (int k = j + 1; k < num; k++)
 			{
 				int point_x3 = available_space[k][1];
 				int point_y3 = available_space[k][0];
 
-				matrix[point_y3][point_x3] = 1; //¿©±â±îÁö º® 3°³ ´Ù ¼¼¿ì°í
+				matrix[point_y3][point_x3] = 1; //ì—¬ê¸°ê¹Œì§€ ë²½ 3ê°œ ë‹¤ ì„¸ìš°ê³ 
 
 				memset(visited, 0, sizeof(visited));
-				memcpy(copymatrix, matrix, sizeof(matrix)); //º¯ÇÏ´Â matrix copy
+				memcpy(copymatrix, matrix, sizeof(matrix)); //ë³€í•˜ëŠ” matrix copy
 
 				for (int n = 0; n < N; n++) {
 					for (int m = 0; m < M; m++) {
-						if (!visited[n][m] && copymatrix[n][m] == 2) //¾ÆÁ÷ ¹æ¹®ÇÏÁö ¾ÊÀº °÷¿¡ ¹ÙÀÌ·¯½º ¹ß°ßÇßÀ¸¸é
+						if (!visited[n][m] && copymatrix[n][m] == 2) //ì•„ì§ ë°©ë¬¸í•˜ì§€ ì•Šì€ ê³³ì— ë°”ì´ëŸ¬ìŠ¤ ë°œê²¬í–ˆìœ¼ë©´
 						{
-							DFS(n, m); //DFSµé¾î°¡¼­ ¹ÙÀÌ·¯½º ÆÛÆ®¸®±â
+							DFS(n, m); //DFSë“¤ì–´ê°€ì„œ ë°”ì´ëŸ¬ìŠ¤ í¼íŠ¸ë¦¬ê¸°
 						}
 					}
 				}
-				maxnum = max(maxnum, Check_SafetyZone()); //¹Ù²ï matrix¸¦ º¸°í safety zone È®ÀÎ ÈÄ Á¦ÀÏ Å« °æ¿ì¸¸ ÀúÀå
-				matrix[point_y3][point_x3] = 0; //º® ¼¼¿î°Å ÇØÁ¦
+				maxnum = max(maxnum, Check_SafetyZone()); //ë°”ë€ matrixë¥¼ ë³´ê³  safety zone í™•ì¸ í›„ ì œì¼ í° ê²½ìš°ë§Œ ì €ì¥
+				matrix[point_y3][point_x3] = 0; //ë²½ ì„¸ìš´ê±° í•´ì œ
 				
 			}
 			matrix[point_y2][point_x2] = 0;
@@ -93,8 +93,8 @@ int main() {
 	if (3 <= N && N <= 8 && 3 <= M && M <= 8) {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				cin >> matrix[i][j]; //ÀÔ·Â ¹Ş°í
-				if (matrix[i][j] == 0) //º® ¼¼¿ï¼ö ÀÖ´Â °÷ÀÌ¸é available_space¿¡ ÀúÀå
+				cin >> matrix[i][j]; //ì…ë ¥ ë°›ê³ 
+				if (matrix[i][j] == 0) //ë²½ ì„¸ìš¸ìˆ˜ ìˆëŠ” ê³³ì´ë©´ available_spaceì— ì €ì¥
 				{
 					available_space[num].push_back(i);
 					available_space[num].push_back(j);
@@ -102,9 +102,9 @@ int main() {
 				}
 			}
 		}
-	} //matrix ÀÔ·Â¹Ş±â
+	} //matrix ì…ë ¥ë°›ê¸°
 
-	Making_wall(); //º® ¼¼°³ ¼¼¿ì°í ¹ÙÀÌ·¯½º ÆÛÆ®¸®°í safety zone Ä«¿îÆ® ÇÏ·¯ °¨
+	Making_wall(); //ë²½ ì„¸ê°œ ì„¸ìš°ê³  ë°”ì´ëŸ¬ìŠ¤ í¼íŠ¸ë¦¬ê³  safety zone ì¹´ìš´íŠ¸ í•˜ëŸ¬ ê°
 
 	cout << maxnum << endl;
 }
