@@ -6,24 +6,24 @@ using namespace std;
 #define Triple_Max 30000
 int field[Triple_Max][MAX][MAX] = { 0 };
 int visited[MAX][MAX][MAX] = { 0 };
-int earthworm = 0; //¹èÃß Áı´Ü °³¼ö
+int earthworm = 0; //ë°°ì¶” ì§‘ë‹¨ ê°œìˆ˜
 int move_x[4] = { 0, 0, 1, -1 };
 int move_y[4] = { 1, -1, 0, 0 };
 int M[Triple_Max] = { 0 };
-int N[Triple_Max] = { 0 }; //M:¹èÃß ¹ç °¡·Î ±æÀÌ, N:¹èÃß ¹ç ¼¼·Î ±æÀÌ //¾êµµ °íÃÄ¾ßÇÔ!!!!!!!!!!!!!!!!!!!!!!!1
+int N[Triple_Max] = { 0 }; //M:ë°°ì¶” ë°­ ê°€ë¡œ ê¸¸ì´, N:ë°°ì¶” ë°­ ì„¸ë¡œ ê¸¸ì´ //ì–˜ë„ ê³ ì³ì•¼í•¨!!!!!!!!!!!!!!!!!!!!!!!1
 
 void DFS(int current_t, int current_x, int current_y) {
-	visited[current_t][current_x][current_y] = 1; //visited Ã¼Å©
+	visited[current_t][current_x][current_y] = 1; //visited ì²´í¬
 
 	for (int i = 0; i < 4; i++) {
 		int next_x = current_x + move_x[i];
 		int next_y = current_y + move_y[i];
 
-		if (0 <= next_x && next_x < N[current_t] && 0 <= next_y && next_y < M[current_t] && visited[current_t][next_x][next_y] != 1) { //¿òÁ÷ÀÎ ¹üÀ§°¡ À¯È¿ÇÑ ¹üÀ§¶ó¸é + ¾ËÆÄ Á¶°ÇÀÌ ÇÊ¿äÇÒµí,,?
+		if (0 <= next_x && next_x < N[current_t] && 0 <= next_y && next_y < M[current_t] && visited[current_t][next_x][next_y] != 1) { //ì›€ì§ì¸ ë²”ìœ„ê°€ ìœ íš¨í•œ ë²”ìœ„ë¼ë©´ + ì•ŒíŒŒ ì¡°ê±´ì´ í•„ìš”í• ë“¯,,?
 			if (field[current_t][next_x][next_y] == 1) {
 				DFS(current_t, next_x, next_y);
 			}
-			else //0ÀÌ¸é Ã¼Å©¸¸ ÇÏ°í ³Ñ¾î°¨.
+			else //0ì´ë©´ ì²´í¬ë§Œ í•˜ê³  ë„˜ì–´ê°.
 			{
 				visited[current_t][next_x][next_y] = 1;
 			}
@@ -32,10 +32,10 @@ void DFS(int current_t, int current_x, int current_y) {
 }
 
 int main() {
-	int T; //T:Å×½ºÆ®ÄÉÀÌ½º
+	int T; //T:í…ŒìŠ¤íŠ¸ì¼€ì´ìŠ¤
 	cin >> T;
-	int K; // K:¹èÃß °³¼ö
-	int X, Y; //¹èÃß À§Ä¡ ÁÂÇ¥
+	int K; // K:ë°°ì¶” ê°œìˆ˜
+	int X, Y; //ë°°ì¶” ìœ„ì¹˜ ì¢Œí‘œ
 
 	for (int t = 0; t < T; t++) {
 		cin >> M[t] >> N[t] >> K;
@@ -43,17 +43,17 @@ int main() {
 			for (int i = 0; i < K; i++) {
 				cin >> X >> Y;
 				if (0 <= X && X <= M[t] - 1 && 0 <= Y && Y <= N[t] - 1) {
-					field[t][Y][X] = 1; //¹è¿­¿¡¼­´Â x, y¹Ù²ãÁà¾ß ÇÒ µí
+					field[t][Y][X] = 1; //ë°°ì—´ì—ì„œëŠ” x, yë°”ê¿”ì¤˜ì•¼ í•  ë“¯
 				}
 
 			}
 		}
 	}
 
-	for (int t = 0; t < T; t++) { //Å×½ºÆ® ÄÉÀÌ½º °³¼ö
+	for (int t = 0; t < T; t++) { //í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ê°œìˆ˜
 		earthworm = 0;
-		for (int i = 0; i < N[t]; i++) { //¼¼·Î
-			for (int j = 0; j < M[t]; j++) { //°¡·Î
+		for (int i = 0; i < N[t]; i++) { //ì„¸ë¡œ
+			for (int j = 0; j < M[t]; j++) { //ê°€ë¡œ
 				if (visited[t][i][j] != 1 && field[t][i][j] == 1) {
 					earthworm++;
 					DFS(t, i, j);
