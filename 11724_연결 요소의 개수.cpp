@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 
-int visited[1001] = { 0 }; //¾ÆÁ÷ ´Ù ¹æ¹®¾ÈÇÑ »óÅÂ·Î ÃÊ±âÈ­
+int visited[1001] = { 0 }; //ì•„ì§ ë‹¤ ë°©ë¬¸ì•ˆí•œ ìƒíƒœë¡œ ì´ˆê¸°í™”
 vector <int> v[1001];
 
 void DFS(int start) {
@@ -23,10 +23,10 @@ int main() {
 	int num1, num2;
 	
 	if (1 <= N && N <= 1000 && 0 <= M && M <= N * (N - 1) / 2) {
-		for (int i = 0; i < M; i++) { //Vertex¿Í Edge°³¼ö ¸ÂÀ¸¸é input ¹ŞÀ» ÁØºñ
+		for (int i = 0; i < M; i++) { //Vertexì™€ Edgeê°œìˆ˜ ë§ìœ¼ë©´ input ë°›ì„ ì¤€ë¹„
 			cin >> num1 >> num2; 
-			if (1 <= num1 && num1 <= N && 1 <= num2 && num2 <= N) { //¾çÂÊ Á¤Á¡¿¡ ´ëÇØ Á¶°ÇÀÌ ¸ÂÀ¸¸é
-				v[num1].push_back(num2); //¶§·Á¹ÚÀ½
+			if (1 <= num1 && num1 <= N && 1 <= num2 && num2 <= N) { //ì–‘ìª½ ì •ì ì— ëŒ€í•´ ì¡°ê±´ì´ ë§ìœ¼ë©´
+				v[num1].push_back(num2); //ë•Œë ¤ë°•ìŒ
 				v[num2].push_back(num1);
 			}
 		}
@@ -35,9 +35,9 @@ int main() {
 	int connected_compo=0;
 
 	for (int i = 1; i <= N; i++) { //
-		if (!visited[i]) //visited°¡ 1ÀÌ ¾Æ´Ï¸é
+		if (!visited[i]) //visitedê°€ 1ì´ ì•„ë‹ˆë©´
 		{
-			DFS(i); //DFS µ¹¸®±â , ÇÑ ¿¬°á¿ä¼Ò ´Ù µ¹°í ³ª¿À¸é ¾ÆÁ÷ ¹æ¹®ÇÑ ³ëµå°¡ ¹ß°ßµÉ ¶§±îÁö È®ÀÎ
+			DFS(i); //DFS ëŒë¦¬ê¸° , í•œ ì—°ê²°ìš”ì†Œ ë‹¤ ëŒê³  ë‚˜ì˜¤ë©´ ì•„ì§ ë°©ë¬¸í•œ ë…¸ë“œê°€ ë°œê²¬ë  ë•Œê¹Œì§€ í™•ì¸
 			connected_compo++;
 		}
 	}
