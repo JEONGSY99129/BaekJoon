@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
     int N, M;
-    cin >> N >> M; //N : Ä«µåÀÇ °³¼ö, M : sum limit
+    cin >> N >> M; //N : ì¹´ë“œì˜ ê°œìˆ˜, M : sum limit
     int maxnum = 0;
     int sum = 0;
     int cards[MAX] = { 0 };
@@ -16,10 +16,10 @@ int main() {
             cin >> cards[i];
             if (cards[i] > 100000)
             {
-                cards[i] = 0; //ÀÔ·Â ¹Þ¾ÒÀ¸¸é 0À¸·Î ¹Ù²Ù°í, i--·Î back.
+                cards[i] = 0; //ìž…ë ¥ ë°›ì•˜ìœ¼ë©´ 0ìœ¼ë¡œ ë°”ê¾¸ê³ , i--ë¡œ back.
                 i--;
             }
-        } //¹ÞÀº Ä«µå °¹¼ö¸¸Å­ ÀÔ·Â ¹Þ±â
+        } //ë°›ì€ ì¹´ë“œ ê°¯ìˆ˜ë§Œí¼ ìž…ë ¥ ë°›ê¸°
     }
 
     for (int o = 0; o < N - 2; o++) {
