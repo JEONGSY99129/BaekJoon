@@ -10,7 +10,7 @@ int dy[4] = { 0, 0, 1, -1 };
 int normal = 0;
 int patient = 0;
 
-void DFS(int current_y, int current_x) { //Á¤»óÀÎ DFS
+void DFS(int current_y, int current_x) { //ÃÂ¤Â»Ã³Ã€Ã DFS
 	visited[current_y][current_x] = 1;
 
 	for (int i = 0; i < 4; i++) {
@@ -39,7 +39,7 @@ int main() {
 				cin >> matrix[i][j];
 			}
 		}
-	} //ÀÔ·Â
+	} //Ã€Ã”Â·Ã‚
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
