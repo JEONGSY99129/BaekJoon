@@ -7,10 +7,10 @@ vector <string> v;
 bool compare(string a, string b)
 {
 	if (a.length() != b.length()) {
-		return a.length()<b.length(); //±æÀÌ°¡ ´Ù¸£¸é ±æÀÌ ÂªÀº´ë·Î Á¤·Ä
+		return a.length()<b.length(); //ê¸¸ì´ê°€ ë‹¤ë¥´ë©´ ê¸¸ì´ ì§§ì€ëŒ€ë¡œ ì •ë ¬
 	}
 	else {
-		return a < b; //±æÀÌ °°À¸¸é ¹®ÀÚ ¼ø´ë·Î Á¤·Ä
+		return a < b; //ê¸¸ì´ ê°™ìœ¼ë©´ ë¬¸ìž ìˆœëŒ€ë¡œ ì •ë ¬
 	}
 }
 int main() {
@@ -25,7 +25,7 @@ int main() {
 		}
 	}
 
-	sort(v.begin(), v.end(), compare); //compare ÇÔ¼ö¶ó´Â ±âÁØÀ¸·Î Á¤·ÄÇÏ±â
+	sort(v.begin(), v.end(), compare); //compare í•¨ìˆ˜ë¼ëŠ” ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬í•˜ê¸°
 	v.erase(unique(v.begin(), v.end()), v.end());
 
 	for (int i = 0; i < v.size(); i++) {
