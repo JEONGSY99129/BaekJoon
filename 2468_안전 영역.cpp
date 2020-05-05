@@ -1,9 +1,9 @@
 #include<iostream>
 #include<algorithm>
-#include<cstring> //vs¿¡¼­´Â ÇÊ¿ä¤¤¤¤
+#include<cstring> //vsì—ì„œëŠ” í•„ìš”ã„´ã„´
 using namespace std;
 #define MAX 100
-int N; //¹è¿­ »çÀÌÁî
+int N; //ë°°ì—´ ì‚¬ì´ì¦ˆ
 
 int village[MAX][MAX];
 int visited[MAX][MAX] = { 0 };
@@ -17,11 +17,11 @@ void DFS(int current_x, int current_y, int limit) {
 		int next_x = current_x + move_x[i];
 		int next_y = current_y + move_y[i];
 
-		if ((0 <= next_x) && (next_x < N) && (0 <= next_y) && (next_y < N) && (visited[next_y][next_x] != 1)) { //¿òÁ÷ÀÎ ¹üÀ§°¡ À¯È¿ÇÑ ¹üÀ§¶ó¸é
+		if ((0 <= next_x) && (next_x < N) && (0 <= next_y) && (next_y < N) && (visited[next_y][next_x] != 1)) { //ì›€ì§ì¸ ë²”ìœ„ê°€ ìœ íš¨í•œ ë²”ìœ„ë¼ë©´
 			if (village[next_y][next_x] > limit) {
 				DFS(next_x, next_y, limit);
 			}
-			else //0ÀÌ¸é Ã¼Å©¸¸ ÇÏ°í ³Ñ¾î°¨.
+			else //0ì´ë©´ ì²´í¬ë§Œ í•˜ê³  ë„˜ì–´ê°.
 			{
 				visited[next_y][next_x] = 1;
 			}
