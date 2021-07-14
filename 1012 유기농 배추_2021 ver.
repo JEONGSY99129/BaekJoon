@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include<cstring>
+using namespace std;
+#define WIDTH_MAX 50
+#define HEIGHT_MAX 50
+int move_x[4] = { 0, 0, 1, -1 };
+int move_y[4] = { 1, -1, 0, 0 };
+
+class Farming
+{
+public:
+	int Width, Height, Count; //밭 사이즈와 배추 개수
+	int field[HEIGHT_MAX][WIDTH_MAX]; //밭 크기 임의 지정
+	bool visited[HEIGHT_MAX][WIDTH_MAX]; //밭 방문한 경로 체크
+	void dfs(int y, int x) {
+		for (int i = 0; i < 4; i++) {
+			int next_x = x + move_x[i]; //다음 x좌표 지정
+			int next_y = y + move_y[i]; //다음 y좌표 지정
+
+			if ((next_x < 0) || (next_x >= Width) || (next_y < 0) || (next_y >= Height)) //좌표가 밭 범위 내에 없으면 pass~!~!~!!!!
+				continue;
+
+			if (field[next_y][next_x] == 1 && !visited[next_y][next_x]) //다음 좌표에 배추가 있고 아직 훑어보지도 않은 곳이라면
+			{
+				visited[next_y][next_x] = true; //방문 체크
+				dfs(next_y, next_x);
+			}
+			else visited[next_y][next_x] = true;
+		}
+	}
+};
+
+int main()
+{
+	Farming Hanna;
+	int earthworm, testCase; // 필요한 지렁이 개수와 testCase 개수를 담을 변수들
+	cin >> testCase; //testCase 개수 입력
+
+	for (int t = 0; t < testCase; t++)
+	{
+		earthworm = 0; // 지렁이 개수 초기화
+		memset(Hanna.visited, false, sizeof(Hanna.visited)); //방문 체크 배열 초기화
+		memset(Hanna.field, 0, sizeof(Hanna.field)); //field 초기화
+		cin >> Hanna.Width >> Hanna.Height >> Hanna.Count; //밭에 대한 정보 입력
+		for (int i = 0; i < Hanna.Count; i++) //배추가 심어진 좌표 입력
+		{
+			int x, y;
+			cin >> x >> y;
+			Hanna.field[y][x] = 1;
+		}
+
+		for (int i = 0; i < Hanna.Height; i++) { //밭을 돌며 dfs로 밭 심어진 영역 개수 count
+			for (int j = 0; j < Hanna.Width; j++) {
+				if ((Hanna.visited[i][j] == false) && (Hanna.field[i][j] == 1)) { //아직 확인 안한 영역 && 그 영역에 배추가 있을 때
+					Hanna.visited[i][j] = true;
+					Hanna.dfs(i, j);
+					earthworm++; //배추가 모여있는 영역 개수 count
+				}
+			}
+		}
+		cout << earthworm << endl;
+	}
+}
