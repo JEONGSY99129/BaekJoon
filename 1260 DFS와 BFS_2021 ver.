@@ -1,0 +1,65 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<cstring> //백준에서 memset에서 사용하려면 필요
+using namespace std;
+
+
+class Graph {
+public:
+	int Node, Edge;
+	vector<int> v[1001];
+	queue<int> q;
+	bool visited[1001] = { false };
+
+	void DFS(int sp){
+		while (visited[sp] != 1) {
+			visited[sp] = true;
+			cout << sp << " ";
+			for (int i = 0; i < v[sp].size(); i++) {
+				DFS(v[sp][i]);
+			}
+		}
+	}
+
+	void BFS(int sp) {
+		visited[sp] = 1;
+		q.push(sp);
+
+		while (!q.empty()) {
+			int currentnum = q.front();
+			q.pop();
+			cout << currentnum << " ";
+			for (int i = 0; i < v[currentnum].size(); i++) {
+				int index = v[currentnum][i];
+				if (visited[index] != 1) {
+					q.push(index);
+					visited[index] = 1;
+				}
+			}
+		}
+	}
+};
+
+
+int main() {
+	int StartPoint;
+	Graph algo;
+	cin >> algo.Node >> algo.Edge >> StartPoint;
+
+	for (int i = 0; i < algo.Edge; i++) {
+		int Node1, Node2;
+		cin >> Node1 >> Node2;
+		algo.v[Node1].push_back(Node2);
+		algo.v[Node2].push_back(Node1);
+	}
+
+	for (int i = 1; i <= algo.Node; i++) //작은 node부터 가야하기 때문에 사전에 오름차순 정렬해주기
+		sort(algo.v[i].begin(), algo.v[i].end());
+
+	algo.DFS(StartPoint);
+	cout << endl;
+	memset(algo.visited, false, sizeof(algo.visited));
+	algo.BFS(StartPoint);
+}
