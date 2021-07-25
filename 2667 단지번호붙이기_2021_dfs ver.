@@ -1,0 +1,71 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<stdio.h>
+using namespace std;
+#define MAX 25
+#define _CRT_SECURE_NO_WARNINGS
+int move_x[4] = { 0, 0, 1, -1 };
+int move_y[4] = { 1, -1, 0, 0 };
+
+class Map {
+public:
+	int N;
+	int village[MAX][MAX];
+	vector <int> HouseCount;
+	bool visited[MAX][MAX] = { false };
+	int count;
+	void DFS(int y, int x) {
+		//count++;
+		for (int i = 0; i < 4; i++) {
+			int next_x = x + move_x[i];
+			int next_y = y + move_y[i];
+			
+			if ((next_x < 0) || (next_x >= N) || (next_y < 0) || (next_y >= N))
+				continue;
+
+			if (village[next_y][next_x] && !visited[next_y][next_x]) {
+				count++;
+				visited[next_y][next_x] = true;
+				DFS(next_y, next_x);
+			}
+			else visited[next_y][next_x] = true;
+		}
+	}
+};
+
+int main() {
+	Map Chulsu;
+	int Block = 0;
+	cin >> Chulsu.N;
+
+	for (int i = 0; i < Chulsu.N; i++) {
+		for (int j = 0; j < Chulsu.N; j++) {
+			scanf_s("%1d", &Chulsu.village[i][j]);
+		}
+	}
+
+	for (int i = 0; i < Chulsu.N; i++) {
+		for (int j = 0; j < Chulsu.N; j++) {
+			if (!Chulsu.visited[i][j]) //해당 좌표를 방문한 적이 없으면
+			{
+				if (Chulsu.village[i][j]) //그 위치에 1이 있으면
+				{
+					Chulsu.count = 0;
+					Chulsu.count++;
+					Chulsu.visited[i][j] = true;
+					Chulsu.DFS(i, j);
+					Block++;
+					Chulsu.HouseCount.push_back(Chulsu.count);
+				}
+				else Chulsu.visited[i][j] = true; //그 위치에 1이 없으면 '방문했음'만 체크
+			}
+		}
+	}
+
+	sort(Chulsu.HouseCount.begin(), Chulsu.HouseCount.end());
+	cout << Block << endl;
+	for (int i = 0; i < Chulsu.HouseCount.size(); i++) {
+		cout << Chulsu.HouseCount[i] << endl;
+	}
+}
