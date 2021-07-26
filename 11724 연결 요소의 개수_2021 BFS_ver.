@@ -1,0 +1,53 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+class Graph {
+public:
+	int Vertex, Edge;
+	vector <int> v[1001];
+	queue <int> q;
+	bool visited[1001] = { false };
+	void BFS(int start) {
+		q.push(start);
+
+		while (!q.empty()) {
+			int current = q.front();
+			q.pop();
+			for (int i = 0; i < v[current].size(); i++) {
+				int index = v[current][i];
+				if (!visited[index])
+				{
+					visited[index] = true;
+					q.push(index);
+				}
+			}
+		}
+	}
+};
+
+int main() {
+	int Connected_Component = 0;
+	Graph ug; //undirected_graph 객체 생성
+	cin >> ug.Vertex >> ug.Edge;
+
+	for (int i = 0; i < ug.Edge; i++) {
+		int u, v;
+		cin >> u >> v;
+
+		ug.v[u].push_back(v);
+		ug.v[v].push_back(u);
+	}
+
+	for (int i = 1; i <= ug.Vertex; i++)
+	{
+		if (!ug.visited[i])
+		{
+			ug.visited[i] = true;
+			ug.BFS(i);
+			Connected_Component++;
+		}
+	}
+	cout << Connected_Component << endl;
+}
