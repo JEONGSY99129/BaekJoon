@@ -1,0 +1,98 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+#define MAX 100
+using namespace std;
+int move_x[4] = { 0, 0, 1, -1 };
+int move_y[4] = { 1, -1, 0, 0 };
+
+class Map {
+public:
+	int M, N, K;
+	int map[MAX][MAX] = { 0 };
+	queue<pair<int, int>> nemo;
+	queue <pair<int, int>> q;
+	vector<int> notnemo;
+	int count;
+	void Set_Map() {
+		for (int i = 0; i < K; i++) {
+			int x1 = nemo.front().first;
+			int y1 = nemo.front().second;
+			nemo.pop();
+			int x2 = nemo.front().first;
+			int y2 = nemo.front().second;
+			nemo.pop();
+
+			for (int i = y1; i <= y2 - 1; i++) {
+				for (int j = x1; j <= x2 - 1; j++) {
+					map[i][j] = 1;
+				}
+			}
+		}
+	}
+
+	void BFS(int y, int x) {
+		q.push(make_pair(y, x));
+
+		while (!q.empty()) {
+			int cy = q.front().first;
+			int cx = q.front().second;
+			q.pop();
+
+			for (int i = 0; i < 4; i++) {
+				int nx = cx + move_x[i];
+				int ny = cy + move_y[i];
+
+				if (nx < 0 || nx >= N || ny < 0 || ny >= M)
+					continue;
+
+				if (!map[ny][nx])
+				{
+					q.push(make_pair(ny, nx));
+					map[ny][nx] = 2;
+					count++;
+				}
+			}
+		}
+	}
+};
+
+
+
+
+int main() {
+	int block=0;
+	Map area;
+	cin >> area.M >> area.N >> area.K;
+
+	for (int i = 0; i < area.K; i++) {
+		int left_x, left_y, right_x, right_y;
+		cin >> left_x >> left_y >> right_x >> right_y;
+		area.nemo.push(make_pair(left_x, left_y));
+		area.nemo.push(make_pair(right_x, right_y));
+	}
+
+	area.Set_Map();
+
+	for (int i = 0; i < area.M; i++) {
+		for (int j = 0; j < area.N; j++) {
+			if (area.map[i][j])
+				continue;
+
+			area.count = 1;
+			area.map[i][j] = 2;
+			area.BFS(i, j);
+			area.notnemo.push_back(area.count);
+		}
+	}
+
+	sort(area.notnemo.begin(), area.notnemo.end());
+
+	cout << area.notnemo.size() << endl;
+	for (int i = 0; i < area.notnemo.size(); i++) {
+		cout << area.notnemo[i] << " ";
+	}
+
+
+}
