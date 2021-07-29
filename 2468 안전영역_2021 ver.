@@ -1,0 +1,74 @@
+#include<iostream>
+#include<algorithm>
+#include<queue>
+#define MAX 100
+using namespace std;
+int mx[4] = { 0, 0, 1, -1 };
+int my[4] = { 1, -1, 0, 0 };
+
+class Country {
+public:
+	int N;
+	int map[MAX][MAX];
+	int visited[MAX][MAX] = { 0 };
+	queue <pair<int, int>> q;
+
+	void BFS(int l, int y, int x) {
+		q.push(make_pair(y, x));
+		
+		while (!q.empty()) {
+			int cy = q.front().first;
+			int cx = q.front().second;
+			q.pop();
+
+			for (int i = 0; i < 4; i++) {
+				int ny = cy + my[i];
+				int nx = cx + mx[i];
+
+				if (ny < 0 || ny >= N || nx < 0 || nx >= N)
+					continue;
+
+				if ((map[ny][nx] > l) && !visited[ny][nx])
+				{
+					visited[ny][nx] = 1;
+					q.push(make_pair(ny, nx));
+				}
+			}
+
+		}
+	}
+};
+
+int main() {
+	int limit_max = 0;
+	int result = 1;
+	int temp = 0;
+	Country rainy;
+
+	cin >> rainy.N;
+
+	for (int i = 0; i < rainy.N; i++) {
+		for (int j = 0; j < rainy.N; j++) {
+			cin >> rainy.map[i][j];
+			limit_max=std::max(limit_max, rainy.map[i][j]);
+		}
+	}
+
+	for (int i = 1; i <= limit_max; i++) {
+		temp = 0;
+		memset(rainy.visited, 0, sizeof(rainy.visited));
+		for (int j = 0; j < rainy.N; j++) {
+			for (int k = 0; k < rainy.N; k++) {
+				if (i < rainy.map[j][k] && !rainy.visited[j][k])
+				{
+					rainy.visited[j][k] = 1;
+					rainy.BFS(i, j, k);
+					temp++;
+				}
+			}
+		}
+		result = max(temp, result);
+	}
+	cout << result << endl;
+	
+}
