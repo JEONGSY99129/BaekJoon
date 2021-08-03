@@ -1,0 +1,82 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#define MAX 50
+using namespace std;
+
+class game {
+public:
+	int N, M;
+	char board[50][50];
+	int errorcount1, errorcount2;
+	vector <int> v;
+
+	char change_letter(char cl) {
+		if (cl == 'W')
+			return 'B';
+
+		if (cl == 'B')
+			return 'W';
+	}
+
+	void start_w(int lx, int ly, int rx, int ry) {
+		char comparison_letter='W';
+
+		for (int i = ly; i <= ry; i++) {
+			for (int j = lx; j <= rx; j++) {
+				if (board[i][j] != comparison_letter)
+					errorcount1++;
+
+				if (j != rx) {
+					comparison_letter = change_letter(comparison_letter);
+				}
+			}
+		}
+	}
+
+	void start_b(int lx, int ly, int rx, int ry) {
+		char comparison_letter='B';
+
+		for (int i = ly; i <= ry; i++) {
+			for (int j = lx; j <= rx; j++) {
+				if (board[i][j] != comparison_letter)
+					errorcount2++;
+
+				if (j != rx) {
+					comparison_letter = change_letter(comparison_letter);
+				}
+			}
+		}
+	}
+	int check_error(int lx, int ly, int rx, int ry) {
+		errorcount1 = 0;
+		errorcount2 = 0;
+		
+		start_w(lx, ly, rx, ry);
+		start_b(lx, ly, rx, ry);
+		return min(errorcount1, errorcount2);
+	}	
+};
+
+int main() {
+	game chess;
+	int min;
+	cin >> chess.N >> chess.M;
+
+	for (int i = 0; i < chess.N; i++) { //board 입력받음
+		for (int j = 0; j < chess.M; j++) {
+			cin >> chess.board[i][j];
+		}
+	}
+
+	for (int i = 0; i < chess.N; i++) {
+		for (int j = 0; j < chess.M; j++) {
+			if (i + 7 >= chess.N || j + 7 >= chess.M) //8*8 배열 생성에 조금이라도 규격이 안맞으면 pass
+				continue;
+
+			chess.v.push_back(chess.check_error(j, i, j+7, i+7));
+		}
+	}
+	min = *min_element(chess.v.begin(), chess.v.end());
+	cout << min;
+}
