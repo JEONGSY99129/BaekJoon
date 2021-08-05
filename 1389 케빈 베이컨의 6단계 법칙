@@ -1,0 +1,60 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+//#include<cstring> => boj에서만 필요
+using namespace std;
+
+class Kebin {
+public:
+	int N, M;
+	int visited[101] = { 0 };
+	vector <int> v[100];
+	int answer[101][101] = { 0 };
+	void DFS(int start, int currentnode, int count){
+		visited[currentnode] = 1;
+
+		for (int i = 0; i < v[currentnode].size(); i++) {
+			int nextnode = v[currentnode][i];
+
+			if (!visited[nextnode]) {
+				if (!answer[start][nextnode])
+					answer[start][nextnode] = ++count;
+				else
+					answer[start][nextnode] = min(answer[start][nextnode], ++count);
+
+				DFS(start, nextnode, count);
+				count--;
+			}
+				
+		}
+		visited[currentnode] = 0;
+	}
+};
+
+int main() {
+	Kebin bacon;
+	vector <int> sum;
+
+	cin >> bacon.N >> bacon.M;
+	for (int i = 0; i < bacon.M; i++) {
+		int f1, f2;
+		cin >> f1 >> f2;
+		bacon.v[f1].push_back(f2);
+		bacon.v[f2].push_back(f1);
+	}
+
+	for (int i = 1; i <= bacon.N; i++) {
+		bacon.DFS(i, i, 0);
+		memset(bacon.visited, 0, sizeof(bacon.visited));
+	}
+
+	for (int i = 1; i <= bacon.N; i++) {
+		int s=0;
+		for (int j = 1; j <= bacon.N; j++) {
+			
+			s += bacon.answer[i][j];
+		}
+		sum.push_back(s);
+	}
+	cout << min_element(sum.begin(), sum.end())-sum.begin()+1;
+}
