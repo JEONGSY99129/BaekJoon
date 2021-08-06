@@ -1,0 +1,47 @@
+#include<iostream>
+#include<algorithm>
+#define MAX 20
+using namespace std;
+int mx[4] = { 0, 0, 1, -1 };
+int my[4] = { 1, -1, 0, 0 };
+
+class board {
+public:
+	int R, C, answer = 0; //R은 세로칸, C는 가로칸
+	int alpha[26] = { 0 };
+	char map[MAX][MAX];
+
+	void DFS(int y, int x, int count) {
+		count++;
+		alpha[map[y][x] - 65] = 1;
+		for (int i = 0; i < 4; i++) {
+
+			int nx = x + mx[i];
+			int ny = y + my[i];
+
+			if (nx < 0 || nx >= C || ny < 0 || ny >= R) continue;
+
+			if (!(alpha[map[ny][nx]-65]))
+			{
+				DFS(ny, nx, count);
+			}
+		}
+		answer = max(answer, count);
+		alpha[map[y][x] - 65] = 0;
+	}
+};
+
+int main() {
+	board Alphabet;
+	cin >> Alphabet.R >> Alphabet.C;
+
+	for (int i = 0; i < Alphabet.R; i++) {
+		for (int j = 0; j < Alphabet.C; j++) {
+			cin >> Alphabet.map[i][j];
+		}
+	}
+
+	Alphabet.DFS(0, 0, 0);
+
+	cout << Alphabet.answer << endl;
+}
