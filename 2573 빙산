@@ -1,0 +1,102 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+int mx[4] = { 0, 0, 1, -1 };
+int my[4] = { 1, -1, 0, 0 };
+
+class map {
+public:
+	int N, M;
+	int zerocount;
+	int board[300][300] = { 0 };
+	int watercount[300][300] = { 0 };
+	bool visited[300][300] = { false };
+	queue<pair<int, int>> q;
+
+	void Timepass(int sy, int sx) {
+		q.push(make_pair(sy, sx));
+
+		while (!q.empty()) {
+			int cy = q.front().first;
+			int cx = q.front().second;
+			visited[sy][sx] = 1;
+			zerocount = 0;
+			q.pop();
+			visited[cy][cx] = 1;
+
+
+			for (int i = 0; i < 4; i++) {
+				int ny = cy + my[i];
+				int nx = cx + mx[i];
+
+				if (ny < 0 || ny >= N || nx < 0 || ny >= M) continue;
+
+				if (!board[ny][nx])
+				{
+					watercount[cy][cx]++;
+				}
+				else
+				{
+					if (!visited[ny][nx])
+					{
+						q.push(make_pair(ny, nx));
+						visited[ny][nx] = 1;
+					}
+				}
+			}
+		}
+
+	}
+	void reset() {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++) {
+				board[i][j] = max(0, board[i][j] - watercount[i][j]);
+				visited[i][j] = false;
+				watercount[i][j] = 0;
+			}
+		}
+	}
+};
+
+int main() {
+	map iceberg;
+	int iceberg_count, year_count = 0;
+
+	cin >> iceberg.N >> iceberg.M;
+
+	for (int i = 0; i < iceberg.N; i++) {
+		for (int j = 0; j < iceberg.M; j++) {
+			cin >> iceberg.board[i][j];
+		}
+	}
+
+	while (1) {
+
+		iceberg_count = 0;
+		for (int i = 0; i < iceberg.N; i++) {
+			for (int j = 0; j < iceberg.M; j++) {
+				if (iceberg.board[i][j] && !iceberg.visited[i][j])
+				{
+					iceberg.visited[i][j] = true;
+					iceberg.Timepass(i, j);
+					iceberg_count++;
+				}
+			}
+		}
+		if (iceberg_count >= 2)
+		{
+			cout << year_count;
+			return 0;
+		}
+		else if (iceberg_count == 0) {
+			cout << 0;
+			return 0;
+		}
+
+		iceberg.reset();
+
+		year_count++;
+	}
+}
