@@ -1,0 +1,62 @@
+#include<iostream>
+#include<vector>
+#include<cstring>
+using namespace std;
+int visited[20001] = { 0 };
+vector <int>v[20001];
+
+bool check_bipartite(int start, int group) {
+	visited[start] = group;
+	for (int i = 0; i < v[start].size(); i++) {
+		int next = v[start][i];
+		if (!visited[next])
+		{
+			if (!check_bipartite(next, -group))
+				return false;
+		}
+		else 
+		{
+			if (visited[start] == visited[next]) return false;
+		}
+	}
+	return true;
+}
+
+int main() {
+	int K, V, E;
+	int top = 0;
+	bool result = true;
+
+	cin >> K;
+
+	for (int i = 0; i < K; i++) {
+		cin >> V >> E;
+
+		for (int j = 0; j < E; j++) {
+			int n1, n2;
+			cin >> n1 >> n2;
+			v[n1].push_back(n2);
+			v[n2].push_back(n1);
+		}
+
+		bool group = 1;
+		for (int i = 1; i <= V; i++) {
+			if (!visited[i]) { //방문한 적이 없을 떄
+				result=check_bipartite(i, group);
+
+				if (!result) {
+					result = false;
+					break;
+				}
+			}
+		}
+		
+		if (!result) cout << "NO" << endl;
+		else cout << "YES" << endl;
+
+		memset(visited, false, sizeof(visited));
+		for (int k = 1; k <= V; k++) {
+			v[k].clear();
+		}
+	}
+}
