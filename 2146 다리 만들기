@@ -1,0 +1,98 @@
+#include<iostream>
+#include<queue>
+#include<algorithm>
+#include<cstring> //백준 memset 사용을 위해
+using namespace std;
+int my[4] = { 1, -1, 0, 0 };
+int mx[4] = { 0, 0, 1, -1 };
+
+class map {
+public:
+	int N;
+	int answer = 10000;
+	int board[100][100];
+	bool visited[100][100] = { false };
+
+	void Area(int y, int x, int num) {
+		board[y][x] = num;
+		visited[y][x] = true;
+		for (int i = 0; i < 4; i++) {
+			int nx = x + mx[i];
+			int ny = y + my[i];
+
+			if (nx < 0 || nx >= N || ny < 0 || ny >= N) continue; //다음 좌표의 범위가 표를 벗어나면 다른 좌표로 변경
+
+			if (!visited[ny][nx] && board[ny][nx]) //다음 좌표가 방문한 적이 없는 육지이면
+			{
+				Area(ny, nx, num); //다음 좌표 육지로 옮겨가기
+			}
+		}
+	}
+
+	int BFS(int areanum) {
+		queue <pair<int, int>> q;
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				if (board[i][j] == areanum) {
+					visited[i][j] = true;
+					q.push(make_pair(i, j));
+				}
+			}
+		}
+
+		int result = 0;
+
+		while (!q.empty()) {
+			int queuesize = q.size();
+
+			for (int i = 0; i < queuesize; i++) {
+				int y = q.front().first;
+				int x = q.front().second;
+				q.pop();
+
+				for (int i = 0; i < 4; i++) {
+					int ny = y + my[i];
+					int nx = x + mx[i];
+
+					if (ny < 0 || ny >= N || nx < 0 || nx >= N) continue;
+
+					if (board[ny][nx] && board[ny][nx] != areanum)
+						return result;
+					else if (!visited[ny][nx] && !board[ny][nx]) { //방문한 적 없는 바다면
+						visited[ny][nx] = true;
+						q.push(make_pair(ny, nx));
+					}
+				}
+			}
+			result++;
+		}
+	}
+};
+
+int main() {
+	map bridge;
+	int num = 1, result=10000;
+	cin >> bridge.N;
+
+	for (int i = 0; i < bridge.N; i++) {
+		for (int j = 0; j < bridge.N; j++) {
+			cin >> bridge.board[i][j];
+		}
+	} // 섬 입력
+
+	for (int i = 0; i < bridge.N; i++) {
+		for (int j = 0; j < bridge.N; j++) {
+			if (!bridge.visited[i][j] && bridge.board[i][j])
+				bridge.Area(i, j, num++);
+		}
+	} // 각 섬마다 번호 다르게 하기
+
+	for (int i = 1; i < num; i++) {
+		memset(bridge.visited, false, sizeof(bridge.visited));
+		result=min(result, bridge.BFS(i));
+	}
+
+	cout << result << endl;
+	
+
+}
