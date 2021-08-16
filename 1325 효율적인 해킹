@@ -1,0 +1,55 @@
+#include<iostream>
+#include<vector>
+#include<cstring> //백준 memset 사용
+using namespace std;
+
+class Hacker {
+public:
+	int N, M;
+	int count;
+	vector <int> v[10001];
+	bool visited[10001] = { false };
+
+	void DFS(int start) {
+		visited[start] = true;
+		for (int i = 0; i < v[start].size(); i++)
+		{
+			int next = v[start][i];
+			if (!visited[next])
+			{
+				count++;
+				DFS(next);
+			}
+		}
+	}
+};
+
+int main() {
+	Hacker JiminKim;
+	int result[10001] = { 0 };
+	int max = 0;
+	cin >> JiminKim.N >> JiminKim.M;
+
+	for (int i = 0; i < JiminKim.M; i++) {
+		int num1, num2;
+		cin >> num1 >> num2;
+
+		JiminKim.v[num2].push_back(num1);
+	}
+	
+	for (int i = 1; i <= JiminKim.N; i++) {
+		if (!JiminKim.v[i].size()) continue;
+		JiminKim.count = 0;
+		JiminKim.DFS(i);
+
+		if (max < JiminKim.count) max = JiminKim.count;
+
+		result[i] = JiminKim.count;
+		memset(JiminKim.visited, false, sizeof(JiminKim.visited));
+	}
+
+	for (int i = 1; i <= JiminKim.N; i++) {
+		if (result[i] == max)
+			cout << i << " ";
+	}
+}
