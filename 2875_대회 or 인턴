@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main(){
+    int N, M, K;
+    vector <int> v;
+    cin>>N>>M>>K;
+    
+    if(N+M-K <3){
+        cout<<"0"<<endl;
+        return 0;
+    }
+    
+    int i, j;
+    
+    if(K>M)i=M;
+    else i=0;
+    
+    while(1){
+        j=K-i;
+        if(i>K) break;
+    
+        
+        int man=M-j;
+        int woman=N-i;
+        
+        if(man<0 || woman<0){
+            i++;
+            continue;
+        }
+        
+        if((woman/2)<=(man)){
+            v.push_back(woman/2);
+        }
+        else if((woman/2)>(man)){
+            v.push_back(man);
+        }
+        i++;
+    }
+    
+    cout<<*max_element(v.begin(), v.end());
+}
